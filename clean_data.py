@@ -24,6 +24,25 @@ if 'Email entreprise' in df.columns:
 # Keep first occurrence of each unique email
 df_cleaned = df.drop_duplicates(subset=['Email entreprise'], keep='first')
 
+# Remove duplicates based on company name (case-insensitive)
+if "Nom de l'entreprise" in df_cleaned.columns:
+    df_cleaned = df_cleaned.copy()
+    df_cleaned['temp_name'] = df_cleaned["Nom de l'entreprise"].astype(str).str.lower().str.strip()
+    df_cleaned = df_cleaned.drop_duplicates(subset=['temp_name'], keep='first')
+    
+    # Filter out educational institutions, labs, etc.
+    exclude_keywords = [
+        'regim', 'enis', 'isims', 'institut', 'facult', 'universit', 
+        'école', 'ecole', 'lab', 'laboratoire', 'crns', 'academy'
+    ]
+    # Check if temp_name contains any of the exclude_keywords
+    mask = df_cleaned['temp_name'].str.contains('|'.join(exclude_keywords), case=False, na=False)
+    # Print out how many we're removing
+    print(f"Removing {mask.sum()} institutional/lab entries.")
+    df_cleaned = df_cleaned[~mask]
+    
+    df_cleaned = df_cleaned.drop(columns=['temp_name'])
+
 print(f"After removing duplicates by email: {len(df_cleaned)} rows")
 print(f"Removed {len(df) - len(df_cleaned)} duplicate entries\n")
 
