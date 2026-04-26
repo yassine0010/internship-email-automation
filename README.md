@@ -30,7 +30,7 @@ Fill `Export.csv` with your scraped or manual list of companies, contact names, 
 ### 3. Customize Your Profile & Email Content
 You will need to open `send_emails.py` (and `test_emails.py`) to update the specific variables to match your profile:
 
-* **Your Email Credentials**: At the top of the scripts, find these variables (or similar) and input your details. *(Note: If using Gmail with 2-Factor Authentication, you must generate an "App Password".)*
+* **Your Email Credentials**: At the top of the scripts, find these variables (or similar) and input your details. *(Note: If using Gmail with 2-Factor Authentication, you must generate an [App Password](https://support.google.com/accounts/answer/185833?hl=en). Do not use your standard password).*
   ```python
   EMAIL_ADDRESS = "your.email@gmail.com"
   EMAIL_PASSWORD = "your_app_password"
