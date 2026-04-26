@@ -3,3 +3,10 @@
 __pycache__/
 *.pyc
 .env
+
+# Personal files
+*.pdf
+
+# Internal data
+Export.csv
+Export_cleaned_remaining.csv
