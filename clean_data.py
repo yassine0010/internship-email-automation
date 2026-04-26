@@ -10,6 +10,16 @@ df = pd.read_csv(input_file, sep=';', on_bad_lines='skip', engine='python')
 print(f"Original data: {len(df)} rows")
 print(f"Columns: {list(df.columns)}\n")
 
+# Standardize emails: lower case and remove extra spaces
+if 'Email entreprise' in df.columns:
+    df['Email entreprise'] = df['Email entreprise'].astype(str).str.strip().str.lower()
+    
+    # Remove rows where email is empty, 'nan', or clearly invalid (missing @)
+    df = df[
+        ~df['Email entreprise'].isin(['', 'nan', 'none', 'null']) &
+        df['Email entreprise'].str.contains('@', na=False)
+    ]
+
 # Remove duplicates based on email (primary key)
 # Keep first occurrence of each unique email
 df_cleaned = df.drop_duplicates(subset=['Email entreprise'], keep='first')
